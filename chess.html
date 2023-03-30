@@ -23,6 +23,22 @@
     <body>
         <div id="board" style="width: 400px"></div>
         <div id="history"></div>
-        <script type="text/javascript" src="game.js"></script>
+        <script src="puzzle.js"></script>
+        <script type="text/javascript">
+            const config = {
+                startingPosition: {'d5': 'bQ',
+                                   'f6': 'wP',
+                                   'h8': 'wN'},
+                randomize: false,
+                onTargetReached: (state, history) => {
+                    console.log(state.time, state.path, state.best_path, history.length);
+                },
+                onComplete: (history) => {
+                    console.log(history);
+                }
+            };
+
+            const puzzle = new Puzzle("#board", config);
+        </script>
     </body>
 </html>
