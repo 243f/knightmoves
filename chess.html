@@ -17,28 +17,69 @@
         </style>
         <script src="js/jquery-3.5.1.min.js"></script>
         <script src="js/chessboard-1.0.0.min.js"></script>
-        <script src="chess.js"></script>
+        <script src="game.js"></script>
         <script src="utils.js"></script>
     </head>
     <body>
-        <div id="board" style="width: 400px"></div>
-        <div id="history"></div>
+        <div id="settings">
+                <input type="radio" id="orderSorted" name="order" value="sorted" checked />
+                <label for="orderSorted">Sorted</label>
+                <input type="radio" id="orderRandom" name="order" value="random"/>
+                <label for="orderRandom">Random</label>
+
+                <input type="checkbox" id="pawnF6Checkbox" name="pawnF6"/>
+                <label for="pawnF6Checkbox">Pawn F6</label>
+
+                <button id="reset">Reset</button>
+                <button id="hint">Hint</button>
+        </div>
+        <div id="board" style="width: 800px"></div>
+        <div id="message"></div>
         <script src="puzzle.js"></script>
         <script type="text/javascript">
-            const config = {
-                startingPosition: {'d5': 'bQ',
-                                   'f6': 'wP',
-                                   'h8': 'wN'},
-                randomize: false,
-                onTargetReached: (state, history) => {
-                    console.log(state.time, state.path, state.best_path, history.length);
-                },
-                onComplete: (history) => {
-                    console.log(history);
+            function message(s) {
+                $("#message").html(s);
+            }
+            function restart() {
+                const startingPosition = {'d4': 'bB', 'c5': 'bR', 'h8': 'wN'};
+                if ($("#pawnF6Checkbox").prop("checked")) {
+                    startingPosition['f6'] = 'wP';
                 }
-            };
+                const config = {
+                    startingPosition: startingPosition,
+                    randomize: $("#orderRandom").prop("checked"),
+                    onTargetReached: (state, history) => {
+                        console.log(state.time, state.path, state.best_path, history.length);
+                        if (state.path.length == state.best_path.length) {
+                            message(`⭐ Perfect!<br> ${state.time/1000} seconds`);
+                        } else if (state.path.length <= state.best_path.length+2) {
+                            message(`✅ Excellent!<br> ${state.time/1000} seconds`);
+                        } else {
+                            message(`✅ Good!<br> ${state.time/1000} seconds`);
+                        }
+                    },
+                    onComplete: (history) => {
+                        console.log('COMPLETE', history);
+                        const time = history.map(x=>x.time).reduce((a,b)=>a+b)/1000;
 
-            const puzzle = new Puzzle("#board", config);
+                        const minutes = Math.floor(time/60);
+                        const seconds = time-60*minutes;
+
+                        message(`${minutes}:${seconds}`);
+                    }
+                }
+                console.log(config);
+                puzzle.restart(config);
+            }
+            function hint() {
+                console.log(puzzle.hint()[1]);
+                message(puzzle.hint()[1]);
+            }
+            const puzzle = new Puzzle("#board");
+            $("#reset").click(restart);
+            $("#hint").click(hint);
+
+            restart();
         </script>
     </body>
 </html>

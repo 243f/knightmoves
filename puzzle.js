@@ -1,13 +1,8 @@
 class Puzzle {
     constructor(boardSelector, config) {
-        config = config || {};
-        config['startingPosition'] = config['startingPosition'] || {'d5': 'bQ', 'h8': 'wN'};
-        config['randomize'] = config['randomize'] || false;
-        config['onTargetReached'] = config['onTargetReached'] || (x=>x);
-        this._config = config;
         this._boardSelector = boardSelector;
-        this._board = $('#board');
-        this._initialize();
+        this._board = $(this._boardSelector);
+        this.restart(config);
     };
 
     _initialize = function () {
@@ -41,13 +36,13 @@ class Puzzle {
         const config = {
             draggable: true,
             onDragStart: onDragStart,
-            onDrop: onDrop.bind(this)
+            onDrop: onDrop.bind(this),
         }
 
         const board = ChessBoard(this._boardSelector, config);
         board.position(this._config.startingPosition);
         this._game = new Game(board);
-        this._avail = this._game.available_squares();
+        this._avail = bfsAll(this._getKnight(this._config.startingPosition), this._game.knight_moves.bind(this._game));
         const orderSquares = this._config['randomize'] ? this._shuffle : this._sort;
         orderSquares(this._avail);
         this._setChallenge();
@@ -58,8 +53,8 @@ class Puzzle {
     }
 
     _shuffle = function (arr) {
-        console.log(arr);
-        const n = arr.length;
+        console.log('sfhuffle start', arr);
+        const n = arr.length-1;
         for (let i=n; i>0; i--) {
             let j = Math.floor(Math.random()*i);
             if (i !== j) {
@@ -68,6 +63,7 @@ class Puzzle {
                 arr[i] = temp;
             }
         }
+        console.log('sfhuffle stop', arr);
     }
 
     _onTargetReached = function () {
@@ -77,9 +73,10 @@ class Puzzle {
         state.time = Date.now()-state.time;
         this._history.push(state);
 
-        this._setChallenge(state.target);
+        const complete = this._setChallenge(state.target);
 
-        this._config.onTargetReached(state, this._history);
+        complete ? this._config.onComplete(this._history) :
+                    this._config.onTargetReached(state, this._history);
     }
 
     _setTarget = function (sq) {
@@ -101,6 +98,9 @@ class Puzzle {
         }
 
         let sq = this._avail.pop();
+        if (!sq) {
+            return true;
+        }
         if (sq === start)
             sq = this._avail.pop();
 
@@ -109,13 +109,22 @@ class Puzzle {
         this._state.time = Date.now();
 
         this._setTarget(sq);
+        return false;
     }
 
     //public
-    restart = function() {
+    restart = function(config) {
+        config = config || {};
+        config['startingPosition'] = config['startingPosition'] || {'d5': 'bQ', 'h8': 'wN'};
+        config['randomize'] = config['randomize'] || false;
+        config['onTargetReached'] = config['onTargetReached'] || (x=>x);
+        this._config = config;
+        this._initialize();
     }
 
     //public
     hint = function() {
+        const start = this._getKnight(this._game._board.position());
+        return bfs(start, this._state.target, this._game.knight_moves.bind(this._game));
     }
 };
