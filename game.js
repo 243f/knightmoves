@@ -1,4 +1,4 @@
-const startPosition = {'d5': 'bQ', 'f6': 'wP'};
+const startPosition = {'d5': 'bQ'};
 const $board = $('#board');
 const $hist = $('#history');
 const state = {
@@ -49,10 +49,13 @@ function setChallenge(start) {
     pos[start] = 'wN';
     board.position(pos, false);
 
-    let sq = game.random_square();
-    while (sq === state.target) {
-        sq = game.random_square();
-    }
+    sq = avail.pop();
+    if (sq === start)
+        sq = avail.pop();
+    // let sq = game.random_square();
+    // while (sq === state.target) {
+    //     sq = game.random_square();
+    // }
 
     state.start = start;
     state.target = sq;
@@ -96,4 +99,7 @@ const config = {
 const board = ChessBoard("board", config);
 board.position(startPosition);
 const game = new Game(board);
+const avail = game.available_squares();
+shuffle(avail);
+console.log(avail);
 setChallenge('h8');

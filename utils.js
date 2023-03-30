@@ -1,3 +1,15 @@
+function shuffle(arr) {
+    const n = arr.length;
+    for (let i=n; i>0; i--) {
+        j = Math.floor(Math.random()*i);
+        if (i !== j) {
+            const temp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = temp;
+        }
+    }
+}
+
 function bfs(start, stop, adjc) {
     if (start === stop) {
         return []

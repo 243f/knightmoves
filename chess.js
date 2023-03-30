@@ -76,7 +76,7 @@ class Game {
         return Array(64).fill(0).map((_,i)=>i)
                          .filter(x=>!this._disallow.has(x))
                          .map(n_to_str);
-        }
+    }
 
     random_square = function() {
         const squares = Array.from(this.available_squares());
