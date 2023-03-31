@@ -22,10 +22,8 @@
     </head>
     <body>
         <div id="settings">
-                <input type="radio" id="orderSorted" name="order" value="sorted" checked />
-                <label for="orderSorted">Sorted</label>
-                <input type="radio" id="orderRandom" name="order" value="random"/>
-                <label for="orderRandom">Random</label>
+                <input type="checkbox" id="randomize"  value="random"/>
+                <label for="randomize">Randomize</label>
 
                 <button id="reset">Reset</button>
                 <button id="hint">Hint</button>
@@ -47,7 +45,7 @@
 
                 const config = {
                     startingPosition: startingPosition,
-                    randomize: $("#orderRandom").prop("checked"),
+                    randomize: $("#randomize").prop("checked"),
                     onTargetReached: (state, history) => {
                         console.log(state.time, state.path, state.best_path, history.length);
                         if (state.path.length == state.best_path.length) {
