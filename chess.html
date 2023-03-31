@@ -27,9 +27,6 @@
                 <input type="radio" id="orderRandom" name="order" value="random"/>
                 <label for="orderRandom">Random</label>
 
-                <input type="checkbox" id="pawnF6Checkbox" name="pawnF6"/>
-                <label for="pawnF6Checkbox">Pawn F6</label>
-
                 <button id="reset">Reset</button>
                 <button id="hint">Hint</button>
         </div>
@@ -41,10 +38,13 @@
                 $("#message").html(s);
             }
             function restart() {
-                const startingPosition = {'d4': 'bB', 'c5': 'bR', 'h8': 'wN'};
-                if ($("#pawnF6Checkbox").prop("checked")) {
-                    startingPosition['f6'] = 'wP';
+                let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
+                const url = new URL(document.URL);
+                const fen = url.searchParams.get('fen')
+                if (fen) {
+                    startingPosition = ChessBoard.fenToObj(fen);
                 }
+
                 const config = {
                     startingPosition: startingPosition,
                     randomize: $("#orderRandom").prop("checked"),

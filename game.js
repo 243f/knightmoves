@@ -3,7 +3,8 @@ class Game {
         this._board = board;
         this._disallow = new Set();
         const position = this._board.position();
-        position[Object.keys(position)[Object.values(position).indexOf('wN')]] = '';
+        delete position[Object.keys(position)[Object.values(position).indexOf('wN')]];
+        console.log(position);
 
         for (let y=0; y<8; y++) { for (let x=0; x<8; x++) {
                 const sq = n_to_str(xy_to_n(x,y));
@@ -29,7 +30,7 @@ class Game {
                             }
                             this._disallow.add(xy_to_n(x,i));
                         }
-                        for (let i=y-1; i>=0; i++) {
+                        for (let i=y-1; i>=0; i--) {
                             const sqj = n_to_str(xy_to_n(x,i));
                             if (position[sqj]) {
                                 break;
@@ -37,7 +38,8 @@ class Game {
                             this._disallow.add(xy_to_n(x,i));
                         }
                     this._disallow.add(xy_to_n(x,y));
-                } else if (position[sq] === 'bB' || position[sq] === 'bQ') {
+                }
+                if (position[sq] === 'bB' || position[sq] === 'bQ') {
                         for (let i=1; i<8; i++) {
                             const sqj = n_to_str(xy_to_n(x+i,y+i));
                             if (x+i > 7 || y+i > 7 || position[sqj]) {

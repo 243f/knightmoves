@@ -43,6 +43,7 @@ class Puzzle {
         board.position(this._config.startingPosition);
         this._game = new Game(board);
         this._avail = bfsAll(this._getKnight(this._config.startingPosition), this._game.knight_moves.bind(this._game));
+        this._avail = this._avail.filter(x=>x!==this._getKnight(this._config.startingPosition));
         const orderSquares = this._config['randomize'] ? this._shuffle : this._sort;
         orderSquares(this._avail);
         this._setChallenge();
