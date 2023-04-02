@@ -13,7 +13,13 @@
     <body>
         <div id="container">
             <div id="main">
-                <div id="board" style="width: 800px"></div>
+                <div id="board" style="width: 600px"></div>
+                <div id="editor" style="display:none">
+                    <div id="editBoard" style="width:600px"></div>
+                    <button id="editSubmit">submit</button>
+                    <button id="editClear">clear</button>
+                    <button id="editCancel">cancel</button>
+                </div>
             </div>
             <div id="side">
                 <div id="message"></div>
@@ -32,12 +38,8 @@
                             <td>
                                 <button id="reset">Reset</button>
                                 <button id="hint">Hint</button>
+                                <button id="toggleEditor">Toggle Editor</button>
                             </td>
-                        </tr>
-
-                        <tr>
-                            <div id="editBoard" style="width:300px"></div>
-                            <button id="edit">edit</button>
                         </tr>
                     </table>
                 </div>
@@ -46,7 +48,17 @@
         </div>
         <script src="puzzle.js"></script>
         <script type="text/javascript">
-            const $board = $("#editBoard");
+            const $board = $("#board");
+            const $editor = $("#editor");
+
+            let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
+            const url = new URL(document.URL);
+            const fen = url.searchParams.get('fen')
+            if (fen) {
+                console.log(fen);
+                startingPosition = ChessBoard.fenToObj(fen);
+            }
+
             const config = {
                 draggable: true,
                 sparePieces: true,
@@ -58,11 +70,29 @@
                     }
                     return true;
                 },
-                position: {'d5': 'bQ', 'h8': 'wN'}
+                position: startingPosition
             }
             const board = new ChessBoard("editBoard", config);
 
-            $("#edit").click(() => {
+            $("#toggleEditor").click(()=> {
+                const hidden = $board.css("display") === "none";
+                console.log(hidden);
+                const boardVisibility = hidden ? "block" : "none";
+                const editorVisibility = hidden ? "none" : "block";
+                $board.css("display", boardVisibility);
+                $editor.css("display", editorVisibility);
+            });
+
+            $("#editClear").click(() => {
+                board.position({'h8': 'wN'});
+            });
+
+            $("#editCancel").click(() => {
+                $board.css("display", "block");
+                $editor.css("display", "none");
+            });
+
+            $("#editSubmit").click(() => {
                 const url = new URL(document.location);
                 url.searchParams.delete('fen');
                 url.searchParams.append('fen', board.fen());
