@@ -125,6 +125,9 @@
                     html += "<td>"
                     html += `${x.time/1000}s`;
                     html += "</td>"
+                    html += "<td>"
+                    html += x.usedHint ? 'used hint' : '';
+                    html += "</td>"
                     html += "</tr>"
                 });
                 html += "</table>"
@@ -169,8 +172,7 @@
                 puzzle.restart(config);
             }
             function hint() {
-                console.log(puzzle.hint()[1]);
-                message(puzzle.hint()[1]);
+                puzzle.hint(true);
             }
             const puzzle = new Puzzle("#board");
             $("#reset").click(restart);

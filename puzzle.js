@@ -10,7 +10,8 @@ class Puzzle {
             'start': this._getKnight(this._config.startingPosition),
             'target': null,
             'path': null,
-            'time': null
+            'time': null,
+            'usedHint': false
         };
         this._history = [];
 
@@ -31,6 +32,7 @@ class Puzzle {
             if (target == this._state.target) {
                 this._onTargetReached();
             }
+            this.clearHighlights('blue');
         }
 
         const config = {
@@ -108,6 +110,7 @@ class Puzzle {
         this._state.target = sq;
         this._state.path = [start];
         this._state.time = Date.now();
+        this._state.usedHint = false;
 
         this._setTarget(sq);
         return false;
@@ -124,14 +127,22 @@ class Puzzle {
     }
 
     //public
-    hint = function() {
+    hint = function(highlight) {
         const start = this._getKnight(this._game._board.position());
-        return bfs(start, this._state.target, this._game.knight_moves.bind(this._game));
+        const out = bfs(start, this._state.target, this._game.knight_moves.bind(this._game));
+        if (highlight)
+            this.highlight(out[1], 'blue');
+        this._state.usedHint = true;
+        return out;
     }
 
     clearHighlights = function (color) {
+        const cssClass = 'highlight-'+color;
+        $('.'+cssClass).removeClass(cssClass);
     }
 
     highlight = function (square, color) {
+        const cssClass = 'highlight-'+color;
+        $('.square-'+square).addClass(cssClass);
     }
 };
