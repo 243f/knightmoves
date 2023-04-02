@@ -59,14 +59,14 @@ class Game {
                         }
                         for (let i=1; i<8; i++) {
                             const sqj = n_to_str(xy_to_n(x+i,y-i));
-                            if (x+i > 7 || y+i > 7 || position[sqj]) {
+                            if (x+i > 7 || y-i < 0 || position[sqj]) {
                                 break;
                             }
                             this._disallow.add(xy_to_n(x+i,y-i));
                         }
                         for (let i=1; i<8; i++) {
                             const sqj = n_to_str(xy_to_n(x-i,y+i));
-                            if (x-i < 0 || y+i < 0 || position[sqj]) {
+                            if (x-i < 0 || y+i > 7 || position[sqj]) {
                                 break;
                             }
                             if (position[sqj]) {
