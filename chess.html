@@ -102,9 +102,35 @@
             )
         </script>
         <script type="text/javascript">
+
             function message(s) {
                 $("#message").html(s);
             }
+
+            function renderHistory(history) {
+                const $history = $("#history");
+                let html = "<table>"
+                history.forEach(x=>{
+                    html += "<tr>"
+                    html += "<td>"
+                    if (x.path.length == x.best_path.length) {
+                        html += "⭐"
+                    } else if (x.path.length <= state.best_path.length+2) {
+                        html += "✅"
+                    }
+                    html += "</td>"
+                    html += "<td>"
+                    html += `${x.path.length} (${x.best_path.length})`;
+                    html += "</td>"
+                    html += "<td>"
+                    html += `${x.time/1000}s`;
+                    html += "</td>"
+                    html += "</tr>"
+                });
+                html += "</table>"
+                $history.html(html);
+            }
+
             function restart() {
                 let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
                 const url = new URL(document.URL);
@@ -126,27 +152,7 @@
                         } else {
                             message(`✅ Good!<br> ${state.time/1000} seconds`);
                         }
-                        const $history = $("#history");
-                        let html = "<table>"
-                        history.forEach(x=>{
-                            html += "<tr>"
-                            html += "<td>"
-                            if (x.path.length == x.best_path.length) {
-                                html += "⭐"
-                            } else if (x.path.length <= state.best_path.length+2) {
-                                html += "✅"
-                            }
-                            html += "</td>"
-                            html += "<td>"
-                            html += `${x.path.length} (${x.best_path.length})`;
-                            html += "</td>"
-                            html += "<td>"
-                            html += `${x.time/1000}s`;
-                            html += "</td>"
-                            html += "</tr>"
-                        });
-                        html += "</table>"
-                        $history.html(html);
+                        renderHistory(history);
                     },
                     onComplete: (history) => {
                         console.log('COMPLETE', history);
@@ -156,6 +162,7 @@
                         const seconds = time-60*minutes;
 
                         message(`${minutes}:${seconds}`);
+                        renderHistory(history);
                     }
                 }
                 console.log(config);

@@ -128,4 +128,10 @@ class Puzzle {
         const start = this._getKnight(this._game._board.position());
         return bfs(start, this._state.target, this._game.knight_moves.bind(this._game));
     }
+
+    clearHighlights = function (color) {
+    }
+
+    highlight = function (square, color) {
+    }
 };
