@@ -181,9 +181,9 @@
                         const time = history.map(x=>x.time).reduce((a,b)=>a+b)/1000;
 
                         const minutes = Math.floor(time/60);
-                        const seconds = time-60*minutes;
+                        const seconds = (time-60*minutes).toFixed(1);
 
-                        message(`${minutes}:${seconds}`);
+                        message(`${minutes} minutes ${seconds} seconds`);
                     }
                 }
                 console.log(config);
