@@ -11,9 +11,23 @@
         <script src="utils.js"></script>
     </head>
     <body>
+        <div style="margin: auto; display: table;">
         <div id="container">
             <div id="main">
-                <div id="board" style="width: 600px"></div>
+                <div id="game">
+                    <div id="board" style="width: 600px"></div>
+                    <div id="settings">
+                        <span class="buttonCheckbox">
+                            <input type="checkbox" id="randomize"  value="random"/>
+                            <button>
+                            <label for="randomize" class="label">Randomize</label>
+                            </button>
+                        </span>
+                        <button id="reset">Reset</button>
+                        <button id="hint">Hint</button>
+                        <button id="toggleEditor">Board Editor</button>
+                    </div>
+                </div>
                 <div id="editor" style="display:none">
                     <div id="editBoard" style="width:600px"></div>
                     <button id="editSubmit">submit</button>
@@ -23,32 +37,13 @@
             </div>
             <div id="side">
                 <div id="message"></div>
-                <div id="settings">
-                    <table>
-                        <tr>
-                            <td>
-                                <span class="buttonCheckbox">
-                                    <input type="checkbox" id="randomize"  value="random"/>
-                                    <label for="randomize" class="label">Randomize</label>
-                                </span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <button id="reset">Reset</button>
-                                <button id="hint">Hint</button>
-                                <button id="toggleEditor">Toggle Editor</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
                 <div id="history"></div>
             </div>
         </div>
+        </div>
         <script src="puzzle.js"></script>
         <script type="text/javascript">
-            const $board = $("#board");
+            const $game = $("#game");
             const $editor = $("#editor");
 
             let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
@@ -75,11 +70,11 @@
             const board = new ChessBoard("editBoard", config);
 
             $("#toggleEditor").click(()=> {
-                const hidden = $board.css("display") === "none";
+                const hidden = $game.css("display") === "none";
                 console.log(hidden);
                 const boardVisibility = hidden ? "block" : "none";
                 const editorVisibility = hidden ? "none" : "block";
-                $board.css("display", boardVisibility);
+                $game.css("display", boardVisibility);
                 $editor.css("display", editorVisibility);
             });
 
@@ -88,7 +83,7 @@
             });
 
             $("#editCancel").click(() => {
-                $board.css("display", "block");
+                $game.css("display", "block");
                 $editor.css("display", "none");
             });
 
@@ -124,6 +119,9 @@
                     html += "</td>"
                     html += "<td>"
                     html += `${x.time/1000}s`;
+                    html += "</td>"
+                    html += "<td>"
+                    html += `${x.path[0]}->${x.path[x.path.length-1]}`;
                     html += "</td>"
                     html += "<td>"
                     html += x.usedHint ? 'used hint' : '';
