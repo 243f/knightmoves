@@ -83,8 +83,8 @@ class Puzzle {
     }
 
     _setTarget = function (sq) {
-        this._board.find('.highlight-yellow').removeClass('highlight-yellow');
-        this._board.find('.square-'+sq).addClass('highlight-yellow');
+        this.clearHighlights('yellow');
+        this.highlight(sq, 'yellow');
     }
 
     _getKnight = function (pos) {
