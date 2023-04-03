@@ -78,11 +78,14 @@ class Puzzle {
 
         const complete = this._setChallenge(state.target);
 
-        complete ? this._config.onComplete(this._history) :
-                    this._config.onTargetReached(state, this._history);
+        this._config.onTargetReached(state, this._history);
+        if (complete) {
+            console.log(state);
+            this._config.onComplete(this._history);
+        }
     }
 
-    _setTarget = function (sq) {
+    _highlightTarget = function (sq) {
         this.clearHighlights('yellow');
         this.highlight(sq, 'yellow');
     }
@@ -101,9 +104,6 @@ class Puzzle {
         }
 
         let sq = this._avail.pop();
-        if (!sq) {
-            return true;
-        }
         if (sq === start)
             sq = this._avail.pop();
 
@@ -112,8 +112,8 @@ class Puzzle {
         this._state.time = Date.now();
         this._state.usedHint = false;
 
-        this._setTarget(sq);
-        return false;
+        this._highlightTarget(sq);
+        return sq === undefined;
     }
 
     //public
