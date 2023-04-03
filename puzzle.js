@@ -138,11 +138,11 @@ class Puzzle {
 
     clearHighlights = function (color) {
         const cssClass = 'highlight-'+color;
-        $('.'+cssClass).removeClass(cssClass);
+        this._board.find('.'+cssClass).removeClass(cssClass);
     }
 
     highlight = function (square, color) {
         const cssClass = 'highlight-'+color;
-        $('.square-'+square).addClass(cssClass);
+        this._board.find('.square-'+square).addClass(cssClass);
     }
 };
