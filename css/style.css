@@ -2,10 +2,10 @@
     box-shadow: inset 0 0 3px 3px yellow;
 }
 .highlight-blue {
-    box-shadow: inset 0 0 3px 3px blue;
+    box-shadow: inset 0 0 3px 3px #4C74EA;
 }
 .highlight-green {
-    box-shadow: inset 0 0 3px 3px green;
+    box-shadow: inset 0 0 3px 3px #58EA4C;
 }
 
 .title {
@@ -73,7 +73,10 @@ button:active {
     background-color: #2551D2;
 }
 
-/* checkbox */
+/* checkbox style credit:
+ * https://getcssscan.com/css-checkboxes-examples
+ * example 14
+ */
 
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
 .checkbox-wrapper input[type=checkbox] {
