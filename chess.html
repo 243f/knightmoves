@@ -12,20 +12,26 @@
     </head>
     <body>
         <div style="margin: auto; display: table;">
+            <h2 class="title">Knight and Queen Puzzle</h2>
+            <p class="description">Puzzle inspired by <a href="https://www.youtube.com/watch?v=SrQlpY_eGYU">Ben Finegold</a>.</p>
         <div id="container">
             <div id="main">
                 <div id="game">
                     <div id="board" style="width: 600px"></div>
                     <div id="settings">
-                        <span class="buttonCheckbox">
-                            <input type="checkbox" id="randomize"  value="random"/>
-                            <button>
-                            <label for="randomize" class="label">Randomize</label>
-                            </button>
-                        </span>
-                        <button id="reset">Reset</button>
-                        <button id="hint">Hint</button>
-                        <button id="toggleEditor">Board Editor</button>
+                        <table>
+                            <tr>
+                                <td>
+                                <div class="checkbox-wrapper">
+                                  <input id="randomize" type="checkbox" class="switch">
+                                  <label for="randomize">Randomize</label>
+                                </div>
+                                </td>
+                                <td> <button id="reset">Reset</button> </td>
+                                <td> <button id="hint">Hint</button> </td>
+                                <td> <button id="toggleEditor">Board Editor</button> </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div id="editor" style="display:none">
@@ -37,6 +43,7 @@
             </div>
             <div id="side">
                 <div id="message"></div>
+                <hr>
                 <div id="history"></div>
             </div>
         </div>
@@ -64,6 +71,13 @@
                             return false;
                     }
                     return true;
+                },
+                onDrop: function (source, target, piece, position) {
+                    if (source === "spare" && piece === "wN") {
+                        const l = Object.values(position).filter(x=>x==="wN").length;
+                        if (l>1)
+                            return 'snapback';
+                    }
                 },
                 position: startingPosition
             }
@@ -177,6 +191,7 @@
             $("#hint").click(hint);
 
             restart();
+            message("GOOD LUCK");
         </script>
     </body>
 </html>
