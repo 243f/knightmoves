@@ -114,12 +114,21 @@
         <script type="text/javascript">
 
             function message(s) {
-                $("#message").html(s);
+                $("#message").html(`<p>${s}</p>`);
             }
 
             function renderHistory(history) {
                 const $history = $("#history");
                 let html = "<table>"
+                html += "<thead><tr>"
+                html += "<th></th>"
+                html += "<th>moves</th>"
+                html += "<th>best</th>"
+                html += "<th>time</th>"
+                html += "<th>target</th>"
+                html += "<th>hint</th>"
+                html += "</tr></thead>"
+                html += "<tbody>"
                 history.forEach(x=>{
                     html += "<tr>"
                     html += "<td>"
@@ -129,20 +138,17 @@
                         html += "✅"
                     }
                     html += "</td>"
-                    html += "<td>"
-                    html += `${x.path.length} (${x.best_path.length})`;
-                    html += "</td>"
-                    html += "<td>"
-                    html += `${x.time/1000}s`;
-                    html += "</td>"
-                    html += "<td>"
-                    html += `${x.path[0]}->${x.path[x.path.length-1]}`;
-                    html += "</td>"
+                    html += `<td title="${x.path.join('->')}">${x.path.length}</td>`;
+                    html += `<td title="${x.best_path.join('->')}">${x.best_path.length}</td>`;
+                    html += `<td>${(x.time/1000).toFixed(1)}</td>`;
+                    html += `<td>${x.target}</td>`;
                     html += "<td>"
                     html += x.usedHint ? 'used hint' : '';
                     html += "</td>"
                     html += "</tr>"
+                    console.log(x);
                 });
+                html += "</tbody>"
                 html += "</table>"
                 $history.html(html);
             }
@@ -191,7 +197,7 @@
             $("#hint").click(hint);
 
             restart();
-            message("GOOD LUCK");
+            message("Good luck!");
         </script>
     </body>
 </html>

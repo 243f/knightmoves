@@ -12,8 +12,20 @@
     margin-bottom: 0;
 }
 
+body {
+    background-color: #EEE;
+    color: #112;
+}
+
+hr {
+    border-color: #9A9A9A;
+}
+
 .description {
     margin-top: 0;
+    font-family: sans-serif;
+    font-size: 11pt;
+    color: #666;
 }
 
 #container {
@@ -24,6 +36,29 @@
     width: 400px;
 }
 
+#message p {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+#history table {
+    width: 100%;
+    text-align: right;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+#history table th {
+    text-align: right;
+    font-variant-caps: all-small-caps;
+    border-bottom: 1px solid black;
+    background: #BBC1E1;
+
+}
+
+#history table tbody tr:nth-child(even) {
+    background: #BBC1E1;
+}
 .buttonCheckbox input[type="checkbox"] {
     display: none;
 }
