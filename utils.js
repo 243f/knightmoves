@@ -21,6 +21,10 @@ function xy_to_n(x,y) {
     return x + 8*y;
 }
 
+function getKnight(pos) {
+     return Object.keys(pos)[Object.values(pos).indexOf('wN')];
+}
+
 function shuffle(arr) {
     const n = arr.length-1;
     for (let i=n; i>0; i--) {

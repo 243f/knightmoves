@@ -7,7 +7,7 @@ class Puzzle {
 
     _initialize = function () {
         this._state = {
-            'start': this._getKnight(this._config.startingPosition),
+            'start': getKnight(this._config.startingPosition),
             'target': null,
             'path': null,
             'time': null,
@@ -44,8 +44,8 @@ class Puzzle {
         const board = ChessBoard(this._boardSelector, config);
         board.position(this._config.startingPosition);
         this._game = new Game(board);
-        this._avail = bfsAll(this._getKnight(this._config.startingPosition), this._game.knight_moves.bind(this._game));
-        this._avail = this._avail.filter(x=>x!==this._getKnight(this._config.startingPosition));
+        this._avail = bfsAll(getKnight(this._config.startingPosition), this._game.knight_moves.bind(this._game));
+        this._avail = this._avail.filter(x=>x!==getKnight(this._config.startingPosition));
         const orderSquares = this._config['randomize'] ? this._shuffle : this._sort;
         orderSquares(this._avail);
         this._setChallenge();
@@ -90,13 +90,9 @@ class Puzzle {
         this.highlight(sq, 'yellow');
     }
 
-    _getKnight = function (pos) {
-         return Object.keys(pos)[Object.values(pos).indexOf('wN')];
-    }
-
     _setChallenge = function (start) {
         const pos = Object.fromEntries(Object.entries(this._config['startingPosition']));
-        start = start || this._getKnight(pos);
+        start = start || getKnight(pos);
         if (start) {
             pos[start] = 'wN';
             this._board.position(pos, false);
@@ -128,7 +124,7 @@ class Puzzle {
 
     //public
     hint = function(highlight) {
-        const start = this._getKnight(this._game._board.position());
+        const start = getKnight(this._game._board.position());
         const out = bfs(start, this._state.target, this._game.knight_moves.bind(this._game));
         if (highlight)
             this.highlight(out[1], 'blue');
