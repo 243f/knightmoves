@@ -138,4 +138,8 @@ class Puzzle {
         const cssClass = 'highlight-'+color;
         this._board.find('.square-'+square).addClass(cssClass);
     }
+
+    remaining = function () {
+        return this._avail
+    }
 };

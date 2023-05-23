@@ -178,7 +178,7 @@
                             message(`✅ Good!<br> ${state.time/1000} seconds`);
                         }
                         /* update progress */
-                        const remaining = puzzle.remaining().length;
+                        const remaining = puzzle.remaining().length+1;
                         $progress.find('.remaining').text(remaining+' remaining.');
                         renderHistory(history);
                     },
