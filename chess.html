@@ -45,6 +45,9 @@
             <div id="side">
                 <div id="message"></div>
                 <hr>
+                <div id="progress">
+                    <span class="remaining"></span>
+                </div>
                 <div id="history"></div>
             </div>
         </div>
@@ -112,7 +115,6 @@
             )
         </script>
         <script type="text/javascript">
-
             function message(s) {
                 $("#message").html(`<p>${s}</p>`);
             }
@@ -134,7 +136,7 @@
                     html += "<td>"
                     if (x.path.length == x.best_path.length) {
                         html += "⭐"
-                    } else if (x.path.length <= x.best_path.length+2) {
+                    } else if (x.path.length === x.best_path.length+2) {
                         html += "✅"
                     }
                     html += "</td>"
@@ -155,6 +157,7 @@
 
             function restart() {
                 let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
+                const $progress = $('#progress');
                 const url = new URL(document.URL);
                 const fen = url.searchParams.get('fen')
                 if (fen) {
@@ -174,6 +177,9 @@
                         } else {
                             message(`✅ Good!<br> ${state.time/1000} seconds`);
                         }
+                        /* update progress */
+                        const remaining = puzzle.remaining().length;
+                        $progress.find('.remaining').text(remaining+' remaining.');
                         renderHistory(history);
                     },
                     onComplete: (history) => {
