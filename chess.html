@@ -59,7 +59,7 @@
 
             let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
             const url = new URL(document.URL);
-            const fen = url.searchParams.get('fen')
+            const fen = url.searchParams.get('fen');
             if (fen) {
                 console.log(fen);
                 startingPosition = ChessBoard.fenToObj(fen);
@@ -84,7 +84,7 @@
                     }
                 },
                 position: startingPosition
-            }
+            };
             const board = new ChessBoard("editBoard", config);
 
             $("#toggleEditor").click(()=> {
@@ -111,8 +111,7 @@
                 url.searchParams.append('fen', board.fen());
 
                 document.location = url.toString();
-            }
-            )
+            });
         </script>
         <script type="text/javascript">
             function message(s) {
@@ -121,37 +120,37 @@
 
             function renderHistory(history) {
                 const $history = $("#history");
-                let html = "<table>"
-                html += "<thead><tr>"
-                html += "<th></th>"
-                html += "<th>moves</th>"
-                html += "<th>best</th>"
-                html += "<th>time</th>"
-                html += "<th>target</th>"
-                html += "<th>hint</th>"
-                html += "</tr></thead>"
-                html += "<tbody>"
+                let html = "<table>";
+                html += "<thead><tr>";
+                html += "<th></th>";
+                html += "<th>moves</th>";
+                html += "<th>best</th>";
+                html += "<th>time</th>";
+                html += "<th>target</th>";
+                html += "<th>hint</th>";
+                html += "</tr></thead>";
+                html += "<tbody>";
                 history.forEach(x=>{
-                    html += "<tr>"
-                    html += "<td>"
-                    if (x.path.length == x.best_path.length) {
-                        html += "⭐"
+                    html += "<tr>";
+                    html += "<td>";
+                    if (x.path.length === x.best_path.length) {
+                        html += "⭐";
                     } else if (x.path.length === x.best_path.length+2) {
-                        html += "✅"
+                        html += "✅";
                     }
-                    html += "</td>"
+                    html += "</td>";
                     html += `<td title="${x.path.join('->')}">${x.path.length}</td>`;
                     html += `<td title="${x.best_path.join('->')}">${x.best_path.length}</td>`;
                     html += `<td>${(x.time/1000).toFixed(1)}</td>`;
                     html += `<td>${x.target}</td>`;
-                    html += "<td>"
+                    html += "<td>";
                     html += x.usedHint ? 'used hint' : '';
-                    html += "</td>"
-                    html += "</tr>"
+                    html += "</td>";
+                    html += "</tr>";
                     console.log(x);
                 });
-                html += "</tbody>"
-                html += "</table>"
+                html += "</tbody>";
+                html += "</table>";
                 $history.html(html);
             }
 
@@ -159,7 +158,7 @@
                 let startingPosition = {'d5': 'bQ', 'h8': 'wN'};
                 const $progress = $('#progress');
                 const url = new URL(document.URL);
-                const fen = url.searchParams.get('fen')
+                const fen = url.searchParams.get('fen');
                 if (fen) {
                     console.log(fen);
                     startingPosition = ChessBoard.fenToObj(fen);
@@ -170,7 +169,7 @@
                     randomize: $("#randomize").prop("checked"),
                     onTargetReached: (state, history) => {
                         console.log(state.time, state.path, state.best_path, history.length);
-                        if (state.path.length == state.best_path.length) {
+                        if (state.path.length === state.best_path.length) {
                             message(`⭐ Perfect!<br> ${state.time/1000} seconds`);
                         } else if (state.path.length <= state.best_path.length+2) {
                             message(`✅ Excellent!<br> ${state.time/1000} seconds`);
@@ -191,7 +190,7 @@
 
                         message(`${minutes} minutes ${seconds} seconds`);
                     }
-                }
+                };
                 console.log(config);
                 puzzle.restart(config);
             }
