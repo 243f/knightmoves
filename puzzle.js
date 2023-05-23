@@ -3,9 +3,9 @@ class Puzzle {
         this._boardSelector = boardSelector;
         this._board = $(this._boardSelector);
         this.restart(config);
-    };
+    }
 
-    _initialize = function () {
+    _initialize() {
         this._state = {
             'start': getKnight(this._config.startingPosition),
             'target': null,
@@ -23,13 +23,13 @@ class Puzzle {
             return piece === 'wN';
         }
 
-        function onDrop (source, target, piece) {
+        function onDrop(source, target, piece) {
             if (!isLegalKnightMove(this._game, source, target))
                 return 'snapback';
             if (source !== target) {
                 this._state.path.push(target);
             }
-            if (target == this._state.target) {
+            if (target === this._state.target) {
                 this._onTargetReached();
             }
             this.clearHighlights('blue');
@@ -39,7 +39,7 @@ class Puzzle {
             draggable: true,
             onDragStart: onDragStart,
             onDrop: onDrop.bind(this),
-        }
+        };
 
         const board = ChessBoard(this._boardSelector, config);
         board.position(this._config.startingPosition);
@@ -51,11 +51,11 @@ class Puzzle {
         this._setChallenge();
     }
 
-    _sort = function (arr) {
+    _sort(arr) {
         arr.sort((a,b) => str_to_n(a)-str_to_n(b));
     }
 
-    _shuffle = function (arr) {
+    _shuffle(arr) {
         const n = arr.length-1;
         for (let i=n; i>0; i--) {
             let j = Math.floor(Math.random()*i);
@@ -67,7 +67,7 @@ class Puzzle {
         }
     }
 
-    _onTargetReached = function () {
+    _onTargetReached() {
         const state = Object.fromEntries(Object.entries(this._state));
         state.best_path = bfs(state.start, state.target, this._game.knight_moves.bind(this._game));
         state.best_path.push(state.target);
@@ -82,12 +82,12 @@ class Puzzle {
         }
     }
 
-    _highlightTarget = function (sq) {
+    _highlightTarget(sq) {
         this.clearHighlights('yellow');
         this.highlight(sq, 'yellow');
     }
 
-    _setChallenge = function (start) {
+    _setChallenge(start) {
         const pos = Object.fromEntries(Object.entries(this._config['startingPosition']));
         start = start || getKnight(pos);
         if (start) {
@@ -110,7 +110,7 @@ class Puzzle {
     }
 
     //public
-    restart = function(config) {
+    restart(config) {
         config = config || {};
         config['startingPosition'] = config['startingPosition'] || {'d5': 'bQ', 'h8': 'wN'};
         config['randomize'] = config['randomize'] || false;
@@ -120,7 +120,7 @@ class Puzzle {
     }
 
     //public
-    hint = function(highlight) {
+    hint(highlight) {
         const start = getKnight(this._game._board.position());
         const out = bfs(start, this._state.target, this._game.knight_moves.bind(this._game));
         if (highlight)
@@ -129,17 +129,17 @@ class Puzzle {
         return out;
     }
 
-    clearHighlights = function (color) {
+    clearHighlights(color) {
         const cssClass = 'highlight-'+color;
         this._board.find('.'+cssClass).removeClass(cssClass);
     }
 
-    highlight = function (square, color) {
+    highlight(square, color) {
         const cssClass = 'highlight-'+color;
         this._board.find('.square-'+square).addClass(cssClass);
     }
 
-    remaining = function () {
-        return this._avail
+    remaining() {
+        return this._avail;
     }
-};
+}

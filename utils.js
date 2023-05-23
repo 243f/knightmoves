@@ -1,14 +1,14 @@
 function str_to_coord(s) {
-    return ['abcdefgh'.indexOf(s[0]), '12345678'.indexOf(s[1])]
+    return ['abcdefgh'.indexOf(s[0]), '12345678'.indexOf(s[1])];
 }
 
 function str_to_n(s) {
-    c = str_to_coord(s);
+    const c = str_to_coord(s);
     return xy_to_n(c[0], c[1]);
 }
 
 function coord_to_str(c) {
-    return 'abcdefgh'[c[0]] + '12345678'[c[1]]
+    return 'abcdefgh'[c[0]] + '12345678'[c[1]];
 }
 
 function n_to_str(n) {
@@ -28,7 +28,7 @@ function getKnight(pos) {
 function shuffle(arr) {
     const n = arr.length-1;
     for (let i=n; i>0; i--) {
-        j = Math.floor(Math.random()*i);
+        const j = Math.floor(Math.random()*i);
         if (i !== j) {
             const temp = arr[j];
             arr[j] = arr[i];
@@ -39,10 +39,10 @@ function shuffle(arr) {
 
 function bfs(start, stop, adjc) {
     if (start === stop) {
-        return []
+        return [];
     }
-    const visited = [start]
-    const queue = [[start, [start]]]
+    const visited = [start];
+    const queue = [[start, [start]]];
 
     while (queue.length) {
         const qi = queue.shift();
@@ -64,8 +64,8 @@ function bfs(start, stop, adjc) {
 }
 
 function bfsAll(start, adjc) {
-    const visited = [start]
-    const queue = [start]
+    const visited = [start];
+    const queue = [start];
 
     while (queue.length) {
         const square = queue.shift();
