@@ -35,7 +35,6 @@ function shuffle(arr) {
             arr[i] = temp;
         }
     }
-    console.log('here', arr);
 }
 
 function bfs(start, stop, adjc) {

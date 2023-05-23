@@ -56,7 +56,6 @@ class Puzzle {
     }
 
     _shuffle = function (arr) {
-        console.log('sfhuffle start', arr);
         const n = arr.length-1;
         for (let i=n; i>0; i--) {
             let j = Math.floor(Math.random()*i);
@@ -66,7 +65,6 @@ class Puzzle {
                 arr[i] = temp;
             }
         }
-        console.log('sfhuffle stop', arr);
     }
 
     _onTargetReached = function () {
@@ -80,7 +78,6 @@ class Puzzle {
 
         this._config.onTargetReached(state, this._history);
         if (complete) {
-            console.log(state);
             this._config.onComplete(this._history);
         }
     }
