@@ -4,7 +4,6 @@ class Game {
     this._disallow = new Set();
     const position = this._board.position();
     delete position[Object.keys(position)[Object.values(position).indexOf('wN')]];
-    console.log(position);
 
     for (let y = 0; y < 8; y++) {
       for (let x = 0; x < 8; x++) {
