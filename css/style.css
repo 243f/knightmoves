@@ -36,6 +36,13 @@ hr {
     width: 400px;
 }
 
+#footer {
+    font-family: sans-serif;
+    font-size: 11pt;
+    color: #666;
+    text-align: center;
+}
+
 #message p {
     font-family: sans-serif;
     margin: 0;
