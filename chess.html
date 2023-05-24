@@ -137,8 +137,8 @@
                         html += "✅";
                     }
                     html += "</td>";
-                    html += `<td title="${x.path.join('->')}">${x.path.length}</td>`;
-                    html += `<td title="${x.best_path.join('->')}">${x.best_path.length}</td>`;
+                    html += `<td title="${x.path.join('->')}">${x.path.length-1}</td>`;
+                    html += `<td title="${x.best_path.join('->')}">${x.best_path.length-1}</td>`;
                     html += `<td>${(x.time/1000).toFixed(1)}</td>`;
                     html += `<td>${x.target}</td>`;
                     html += "<td>";
@@ -182,6 +182,7 @@
                         const minutes = Math.floor(time/60);
                         const seconds = (time-60*minutes).toFixed(1);
 
+                        $progress.find('.remaining').text('0 remaining.');
                         message(`${minutes} minutes ${seconds} seconds`);
                     }
                 };
